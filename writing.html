@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — Ieva Apšiniece</title>
+  <meta name="description" content="Thoughts and essays by Ieva Apšiniece on finance, data and life.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Main">
+      <a class="brand" href="index.html">Ieva Apšiniece</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="work.html">Work &amp; services</a></li>
+        <li><a href="writing.html" aria-current="page">Writing</a></li>
+        <li><a class="btn btn--solid" href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-intro">
+      <div class="wrap">
+        <h1>Writing</h1>
+        <p class="lede">Notes and essays on all I've got – travel, dreams, finance, dirt roads, white accordion, and perhaps some skydiving.</p>
+        <div class="filters" id="filters" aria-label="Filter posts by topic"></div>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding-bottom: 6rem;">
+      <!-- Posts appear here automatically from js/posts.js -->
+      <ul class="post-list" id="post-list"></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span class="year">2026</span> Ieva Apšiniece</span>
+      <span><a href="work.html">Work &amp; services</a> · <a href="writing.html">Writing</a> · <a href="index.html#contact">Contact</a></span>
+    </div>
+  </footer>
+
+  <script src="js/posts.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Builds the list of posts and the topic filter buttons
+    const list = document.getElementById('post-list');
+    const filters = document.getElementById('filters');
+    const sorted = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+    const topics = ['All', ...new Set(sorted.map(p => p.topic))];
+
+    function formatDate(d) {
+      return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function render(topic) {
+      list.innerHTML = '';
+      sorted.filter(p => topic === 'All' || p.topic === topic).forEach(p => {
+        const li = document.createElement('li');
+        li.className = 'post-item';
+        li.innerHTML = `<a href="post.html#${p.slug}">
+            <time datetime="${p.date}">${formatDate(p.date)}</time>
+            <div><h2>${p.title}</h2><p>${p.summary}</p></div>
+          </a>`;
+        list.appendChild(li);
+      });
+      filters.querySelectorAll('.filter').forEach(b => b.setAttribute('aria-pressed', b.dataset.topic === topic));
+    }
+
+    // Topic buttons only appear once there are posts on at least two topics
+    if (topics.length > 2) topics.forEach(t => {
+      const b = document.createElement('button');
+      b.className = 'filter';
+      b.textContent = t;
+      b.dataset.topic = t;
+      b.addEventListener('click', () => render(t));
+      filters.appendChild(b);
+    });
+    render('All');
+  </script>
+</body>
+</html>

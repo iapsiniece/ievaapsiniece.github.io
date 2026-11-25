@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — Ieva Apšiniece</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Main">
+      <a class="brand" href="index.html">Ieva Apšiniece</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="work.html">Work &amp; services</a></li>
+        <li><a href="writing.html" aria-current="page">Writing</a></li>
+        <li><a class="btn btn--solid" href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- This page shows one post. Which post is chosen by the address, e.g. post.html#my-post -->
+  <main id="main" class="wrap">
+    <article class="article">
+      <header>
+        <a class="back" href="writing.html">← All writing</a>
+        <h1 id="post-title">Post not found</h1>
+        <p class="post-meta" id="post-meta"></p>
+      </header>
+      <div class="article-body" id="post-body">
+        <p>This post doesn't exist. <a href="writing.html">Go back to all writing.</a></p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span class="year">2026</span> Ieva Apšiniece</span>
+      <span><a href="work.html">Work &amp; services</a> · <a href="writing.html">Writing</a> · <a href="index.html#contact">Contact</a></span>
+    </div>
+  </footer>
+
+  <script src="js/posts.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function showPost() {
+      const slug = location.hash.slice(1);
+      const post = POSTS.find(p => p.slug === slug);
+      if (!post) return;
+      const date = new Date(post.date + 'T12:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.title = post.title + ' — Ieva Apšiniece';
+      document.getElementById('post-title').textContent = post.title;
+      document.getElementById('post-meta').textContent = date + ' · ' + post.topic;
+      document.getElementById('post-body').innerHTML = post.body;
+    }
+    showPost();
+    window.addEventListener('hashchange', showPost);
+  </script>
+</body>
+</html>
