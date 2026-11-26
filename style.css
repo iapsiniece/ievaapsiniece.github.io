@@ -253,3 +253,8 @@ p  { margin: 0 0 1em; }
 }
 .steps strong { display: block; color: var(--ink); }
 .services + .sub { margin-top: 4rem; }
+
+/* Photos inside blog posts */
+.article-body figure { margin: 2.5rem 0; }
+.article-body figure img { width: 100%; height: auto; border-radius: var(--radius-lg); }
+.article-body figcaption { font-family: var(--sans); font-size: .92rem; color: var(--muted); margin-top: .7rem; text-align: center; }
